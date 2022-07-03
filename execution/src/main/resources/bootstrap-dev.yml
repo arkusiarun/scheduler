@@ -1,0 +1,98 @@
+server:
+  port: 8056
+  servlet:
+    contextPath: /scheduler
+  tomcat:
+    accesslog:
+      directory: /data/logs/
+      prefix: access_log_scheduler
+      file-date-format: .yyyy_MM_dd
+      rename-on-rotate: true
+      rotate: true
+      enabled: true
+      pattern: '%A %h "%{uniqueTracking}i" %t "%r" "%{Referer}i" "%{User-Agent}i" %b %s %D'
+
+spring:
+  cloud:
+    config:
+      override-system-properties: false
+    consul:
+      host: 10.5.251.235
+      port: 8500
+      config:
+        fail-fast: false
+        acl-token:
+  profiles:
+    active: dev
+  application:
+    name: scheduler
+
+scheduler.mongodb:
+  uri: localhost:27017
+  database: scheduler
+  socketKeepAlive: true
+  max:
+    read:
+      timeout: 10000
+    wait:
+      time: 2000
+    connect:
+      timeout: 10000
+      idle:
+        timeout: 10000
+      life:
+        timeout: 10000
+  connect:
+    core:
+      connection: 25
+    min:
+      poolSize: 5
+
+kafka:
+  scheduler:
+    bootStrapServers: 10.5.28.114:9092
+    isolation: read_committed
+    topic: schedulerStaging
+    groupId: schedulerGroup
+
+http:
+  rest:
+    maxConnections: 100
+    maxConnectionsPerHost: 40
+    socketTimeOut: 6000
+    connectionTimeOut: 5000
+    connectionRequestTimeout: 5000
+
+jobRunr:
+  dashBoardPort: 8000
+  pollInterval: 15
+  defaultRetryCount: 0
+  delete:
+    jobDuration: 24
+    successJobDuration: 24
+  remove:
+    timedOutServerDuration: 30
+  restart:
+    duration: 20
+
+execution:
+  coreThreadCount: 20
+  maxThreadCount: 40
+  keepAliveTimeInSec: 30
+  queueCapacity: 50
+
+creation:
+  coreThreadCount: 20
+  maxThreadCount: 40
+  keepAliveTimeInSec: 30
+  queueCapacity: 50
+
+custom:
+  task:
+    archivalInSeconds: 86400
+
+internal:
+  jobs:
+    archival:
+      exclusionStatusKey: excludeStatus
+      limitKey: limit

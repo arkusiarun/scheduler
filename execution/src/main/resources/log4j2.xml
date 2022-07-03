@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60">
+    <Appenders>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%X{uniqueTracking}] %c{1}:%L - %msg%n
+                </pattern>>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="App-File-Appender" fileName="${sys:log_path}/scheduler.log"
+                     filePattern="${sys:log_path}/scheduler.log-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%X{uniqueTracking}] %c{1}:%L - %msg%n
+                </Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="512 MB" />
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console-Appender"/>
+            <AppenderRef ref="App-File-Appender" />
+        </Root>
+    </Loggers>
+</Configuration>

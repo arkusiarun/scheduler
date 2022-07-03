@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: scheduler
+  cloud:
+    consul:
+      host: http://consul.india.airtel.itm
+      port: 8500
+      config:
+        watch:
+          enabled: true
+          wait-time: 5
+          delay: 120000
+        fail-fast: true
+        enabled: true
+        prefix: SHOP/scheduler
+        default-context: application
+        data-key: config
+        format: YAML
+        acl-token: 7e91cbea-cf4f-2cd3-48d9-226b3441435e
